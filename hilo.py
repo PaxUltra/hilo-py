@@ -60,7 +60,7 @@ def play_game(number, max_guesses):
             print(f"Incorrect! The number is greater than {user_guess}.")
             remaining_guesses -= 1
         else:
-            attempts = max_guesses - remaining_guesses
+            attempts = max_guesses - (remaining_guesses - 1)
             print(f"\nCongratulations! You guessed the correct number in {attempts} attempts.\n")
             game_over = True
 
