@@ -29,8 +29,22 @@ def set_difficulty():
         else:
             valid_diff = True
 
+    print(f"\nGreat! You have selected the {user_diff.capitalize()} difficulty level.\nLet's start the game!")
+
     return diffs.get(user_diff)
 
+def take_guess():
+    valid_guess = False
+
+    while not valid_guess:
+        user_guess = input("\nEnter your guess: ")
+
+        if not user_guess.isdigit():
+            print("Your guess must be a number between 1 and 100 (inclusive). Please try again.")
+        else:
+            valid_guess = True
+
+    return int(user_guess)
 
 
 if __name__ == "__main__":
@@ -39,9 +53,9 @@ if __name__ == "__main__":
 
     # Select difficulty
     max_guesses = set_difficulty()
-    print(f"\nGuesses: {max_guesses}")
 
     # Accept user input
+    user_guess = take_guess()
 
     # Evaluate input
 
