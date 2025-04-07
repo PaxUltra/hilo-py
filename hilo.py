@@ -14,21 +14,19 @@ def set_difficulty():
         "hard": 3
     }
 
-    valid_diff = False
-
     print("\nPlease select the difficulty level:\n"
     "1. Easy (10 guesses)\n"
     "2. Medium (5 guesses)\n"
     "3. Hard (3 guesses)")
     
-    while not valid_diff:
+    while True:
         user_diff = input("\nEnter your choice: ").lower()
 
-        if user_diff not in diffs.keys():
-            print("\nThat is not a valid difficulty. Please try again.")
-        else:
-            valid_diff = True
-
+        if user_diff in diffs.keys():
+            break
+        
+        print("\nThat is not a valid difficulty. Please try again.")
+        
     print(f"\nGreat! You have selected the {user_diff.capitalize()} difficulty level.\nLet's start the game!")
 
     return diffs.get(user_diff)
