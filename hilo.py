@@ -34,17 +34,19 @@ def set_difficulty():
     return diffs.get(user_diff)
 
 def take_guess():
-    valid_guess = False
+    while True:
+        user_guess_str = input("\nEnter your guess: ")
 
-    while not valid_guess:
-        user_guess = input("\nEnter your guess: ")
-
-        if not user_guess.isdigit():
+        if not user_guess_str.isdigit():
             print("Your guess must be a number between 1 and 100 (inclusive). Please try again.")
-        else:
-            valid_guess = True
+            continue
+        
+        guess = int(user_guess_str)
+        if guess < 1 or guess > 100:
+            print("Your guess must be between 1 and 100 (inclusive). Please try again.")
+            continue
 
-    return int(user_guess)
+        return guess
 
 def play_game(number, max_guesses):
     game_over = False
@@ -67,7 +69,6 @@ def play_game(number, max_guesses):
         if remaining_guesses < 1:
             print(f"\nYou ran out of attempts! The number was {number}.\n")
             game_over = True
-
 
 if __name__ == "__main__":
     # Start game, and select number
