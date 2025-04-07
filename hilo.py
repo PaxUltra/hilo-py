@@ -46,6 +46,28 @@ def take_guess():
 
     return int(user_guess)
 
+def play_game(number, max_guesses):
+    game_over = False
+    remaining_guesses = max_guesses
+
+    while not game_over:
+        user_guess = take_guess()
+
+        if user_guess > number:
+            print(f"Incorrect! The number is less than {user_guess}.")
+            remaining_guesses -= 1
+        elif user_guess < number:
+            print(f"Incorrect! The number is greater than {user_guess}.")
+            remaining_guesses -= 1
+        else:
+            attempts = max_guesses - remaining_guesses
+            print(f"\nCongratulations! You guessed the correct number in {attempts} attempts.\n")
+            game_over = True
+
+        if remaining_guesses < 1:
+            print(f"\nYou ran out of attempts! The number was {number}.\n")
+            game_over = True
+
 
 if __name__ == "__main__":
     # Start game, and select number
@@ -54,9 +76,5 @@ if __name__ == "__main__":
     # Select difficulty
     max_guesses = set_difficulty()
 
-    # Accept user input
-    user_guess = take_guess()
-
-    # Evaluate input
-
-    # End game
+    # Play the game
+    play_game(number, max_guesses)
