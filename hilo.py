@@ -61,19 +61,24 @@ def play_game(number, max_guesses):
             remaining_guesses -= 1
         else:
             attempts = max_guesses - (remaining_guesses - 1)
-            print(f"\nCongratulations! You guessed the correct number in {attempts} attempts.\n")
+            print(f"\nCongratulations! You guessed the correct number in {attempts} attempts.")
             game_over = True
 
         if remaining_guesses < 1:
-            print(f"\nYou ran out of attempts! The number was {number}.\n")
+            print(f"\nYou ran out of attempts! The number was {number}.")
             game_over = True
 
+def game_loop():
+    while True:
+        number = start_game()
+        max_guesses = set_difficulty()
+        play_game(number, max_guesses)
+
+        play_again = input("\nPlay again? (y/n): ").lower()
+
+        if play_again != "y":
+            print("\nThanks for playing!\n")
+            break
+
 if __name__ == "__main__":
-    # Start game, and select number
-    number = start_game()
-
-    # Select difficulty
-    max_guesses = set_difficulty()
-
-    # Play the game
-    play_game(number, max_guesses)
+    game_loop()
