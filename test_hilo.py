@@ -116,3 +116,17 @@ class TestHiloFunctions(unittest.TestCase):
                     "Incorrect! The number is greater than 48.\n" \
                     "\nYou ran out of attempts! The number was 50.\n"
                 self.assertEqual(mock_stdout.getvalue(), expected_output)
+
+    def test_game_loop(self):
+        # Mock all other functions, because we don't need to test them again
+        with patch('hilo.start_game', return_value=50) as mock_start, \
+            patch('hilo.set_difficulty', return_value=5) as mock_diff, \
+            patch('hilo.play_game') as mock_play, \
+            patch('builtins.input', side_effect=['Y', 'n']), \
+            patch('sys.stdout', new=StringIO()) as mock_stdout:
+
+            game_loop()
+            self.assertEqual(mock_start.call_count, 2)
+            self.assertEqual(mock_diff.call_count, 2)
+            self.assertEqual(mock_play.call_count, 2)
+            self.assertEqual(mock_stdout.getvalue(), "\nThanks for playing!\n\n")
