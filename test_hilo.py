@@ -14,6 +14,31 @@ class TestHiloFunctions(unittest.TestCase):
             self.assertGreaterEqual(number, 1)
             self.assertLessEqual(number, 100)
 
-    def test_set_difficulty(self, mock_input):
-        # Test the three difficulties
-        return
+    def test_set_difficulty(self):
+        # Easy
+        with patch('builtins.input', side_effect=['eAsY']) as mock_input:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                result = set_difficulty()
+
+                expected_output = "\nPlease select the difficulty level:\n" \
+                "1. Easy (10 guesses)\n" \
+                "2. Medium (5 guesses)\n" \
+                "3. Hard (3 guesses)\n" \
+                "\nGreat! You have selected the Easy difficulty level.\nLet's start the game!\n"
+
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
+                self.assertEqual(result, 10)
+
+        # Medium
+        with patch('builtins.input', side_effect=['MeDiUM']) as mock_input:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                result = set_difficulty()
+
+                expected_output = "\nPlease select the difficulty level:\n" \
+                "1. Easy (10 guesses)\n" \
+                "2. Medium (5 guesses)\n" \
+                "3. Hard (3 guesses)\n" \
+                "\nGreat! You have selected the Medium difficulty level.\nLet's start the game!\n"
+
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
+                self.assertEqual(result, 5)
