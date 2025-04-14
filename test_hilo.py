@@ -89,3 +89,30 @@ class TestHiloFunctions(unittest.TestCase):
                     "Your guess must be between 1 and 100 (inclusive). Please try again.\n"
                 self.assertEqual(mock_stdout.getvalue(), expected_output)
                 self.assertEqual(guess, 50)
+
+    def test_play_game(self):
+        # Correct guess
+        with patch('hilo.take_guess', side_effect=[50]) as mock_guess:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                play_game(50, 3)
+                expected_output = "\nCongratulations! You guessed the correct number in 1 attempts.\n"
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
+
+        # Incorrect guesses
+        with patch('hilo.take_guess', side_effect=[57, 49, 50]) as mock_guess:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                play_game(50, 3)
+                expected_output = "Incorrect! The number is less than 57.\n" \
+                    "Incorrect! The number is greater than 49.\n" \
+                    "\nCongratulations! You guessed the correct number in 3 attempts.\n"
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
+
+        # Out of guesses
+        with patch('hilo.take_guess', side_effect=[57, 49, 48]) as mock_guess:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                play_game(50, 3)
+                expected_output = "Incorrect! The number is less than 57.\n" \
+                    "Incorrect! The number is greater than 49.\n" \
+                    "Incorrect! The number is greater than 48.\n" \
+                    "\nYou ran out of attempts! The number was 50.\n"
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
