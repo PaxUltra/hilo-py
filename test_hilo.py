@@ -42,3 +42,32 @@ class TestHiloFunctions(unittest.TestCase):
 
                 self.assertEqual(mock_stdout.getvalue(), expected_output)
                 self.assertEqual(result, 5)
+
+        # Hard
+        with patch('builtins.input', side_effect=['hARd']) as mock_input:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                result = set_difficulty()
+
+                expected_output = "\nPlease select the difficulty level:\n" \
+                "1. Easy (10 guesses)\n" \
+                "2. Medium (5 guesses)\n" \
+                "3. Hard (3 guesses)\n" \
+                "\nGreat! You have selected the Hard difficulty level.\nLet's start the game!\n"
+
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
+                self.assertEqual(result, 3)
+
+        # Bad input
+        with patch('builtins.input', side_effect=['hardmode', 'hard']) as mock_input:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                result = set_difficulty()
+
+                expected_output = "\nPlease select the difficulty level:\n" \
+                "1. Easy (10 guesses)\n" \
+                "2. Medium (5 guesses)\n" \
+                "3. Hard (3 guesses)\n" \
+                "\nThat is not a valid difficulty. Please try again.\n" \
+                "\nGreat! You have selected the Hard difficulty level.\nLet's start the game!\n"
+
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
+                self.assertEqual(result, 3)
