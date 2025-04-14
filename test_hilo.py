@@ -71,3 +71,21 @@ class TestHiloFunctions(unittest.TestCase):
 
                 self.assertEqual(mock_stdout.getvalue(), expected_output)
                 self.assertEqual(result, 3)
+
+    def test_take_guess(self):
+        # Invalid guess
+        with patch('builtins.input', side_effect=['dog', '50']) as mock_input:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                guess = take_guess()
+                expected_output = "Your guess must be a number between 1 and 100 (inclusive). Please try again.\n"
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
+                self.assertEqual(guess, 50)
+
+        # Out of range
+        with patch('builtins.input', side_effect=['0', '999', '50']) as mock_input:
+            with patch('sys.stdout', new=StringIO()) as mock_stdout:
+                guess = take_guess()
+                expected_output = "Your guess must be between 1 and 100 (inclusive). Please try again.\n" \
+                    "Your guess must be between 1 and 100 (inclusive). Please try again.\n"
+                self.assertEqual(mock_stdout.getvalue(), expected_output)
+                self.assertEqual(guess, 50)
